@@ -1,7 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HashRouter } from 'react-router'
-import './design-system' // tokens y estilos de los componentes
 import './index.css'
 import App from './App.jsx'
 
