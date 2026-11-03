@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, Navigate, useParams } from 'react-router'
+import { Link, Navigate, useNavigate, useParams } from 'react-router'
 import { ExerciseList, FoodList, Icon } from '../design-system'
 import BalanceDia from '../components/BalanceDia.jsx'
 import { registrosDelDia, useDatos } from '../data/store.js'
@@ -8,6 +8,7 @@ import { claveFecha, deClave, fechaLarga } from '../lib/fechas.js'
 /** 4 · Día seleccionado — artboard Dia.dc.html */
 export default function Dia() {
   const { fecha } = useParams()
+  const navigate = useNavigate()
   const { registros } = useDatos()
   const [hoyClave] = useState(() => claveFecha())
 
@@ -40,6 +41,7 @@ export default function Dia() {
 
       <FoodList
         title="Comidas"
+        onOpen={(i) => navigate(`/registro/${comidas[i].id}`)}
         items={comidas.map((c) => ({
           name: c.nombre,
           meal: c.momento,
@@ -55,6 +57,7 @@ export default function Dia() {
 
       <ExerciseList
         title="Entrenamiento"
+        onOpen={(i) => navigate(`/registro/${ejercicios[i].id}`)}
         items={ejercicios.map((e) =>
           e.series
             ? { name: e.nombre, group: e.grupo, time: e.hora, sets: e.series, reps: e.repeticiones, load: e.carga ? `${e.carga} kg` : undefined }

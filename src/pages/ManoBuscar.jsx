@@ -31,7 +31,11 @@ export default function ManoBuscar() {
   return (
     <div className="pantalla pantalla-form">
       <header className="cabecera">
-        <Link to="/" className="ft-icon-btn boton-44" aria-label="Volver al inicio">
+        <Link
+          to={previo.editarId ? `/registro/${previo.editarId}` : '/'}
+          className="ft-icon-btn boton-44"
+          aria-label={previo.editarId ? 'Volver sin guardar' : 'Volver al inicio'}
+        >
           <Icon name="atras" />
         </Link>
         <h1 className="titulo-seccion">Añadir comida</h1>

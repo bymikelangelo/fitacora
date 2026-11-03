@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { Link, Navigate, useNavigate, useParams } from 'react-router'
+import { Link, Navigate, useNavigate, useParams, useSearchParams } from 'react-router'
 import { Icon } from '../design-system'
 import { EJERCICIOS, subtituloEjercicio } from '../data/catalogo.js'
-import { anadirRegistro } from '../data/store.js'
+import { actualizarRegistro, anadirRegistro, buscarRegistro, useDatos } from '../data/store.js'
 import { claveFecha, horaActual } from '../lib/fechas.js'
 
 /** Minutos estimados de una sesión de fuerza, para el balance de actividad. */
@@ -20,13 +20,21 @@ function Menos() {
  * 11 · Detalle del ejercicio — artboard EjercicioDetalle.dc.html
  * Fuerza: series, repeticiones y carga (como en el lienzo).
  * Cardio y flexibilidad: duración en minutos.
+ * Con ?editar=<id> (desde «13 · Detalle de ejercicio») corrige un ejercicio guardado.
  */
 export default function EjercicioDetalle() {
   const navigate = useNavigate()
   const { id } = useParams()
+  const [params] = useSearchParams()
+  const { registros } = useDatos()
+  const editando = buscarRegistro(registros, params.get('editar'))
   const ejercicio = EJERCICIOS.find((e) => e.id === id)
-  const [valores, setValores] = useState(() => ({ ...ejercicio?.valores }))
-  const [hora, setHora] = useState(() => horaActual())
+  const [valores, setValores] = useState(() =>
+    editando
+      ? { series: editando.series, repeticiones: editando.repeticiones, carga: editando.carga ?? 0, duracion: editando.duracion }
+      : { ...ejercicio?.valores },
+  )
+  const [hora, setHora] = useState(() => editando?.hora ?? horaActual())
 
   if (!ejercicio) return <Navigate to="/ejercicio" replace />
 
@@ -45,17 +53,25 @@ export default function EjercicioDetalle() {
       ]
 
   function guardar() {
+    const datos = {
+      hora: /^\d{2}:\d{2}$/.test(hora) ? hora : editando?.hora ?? horaActual(),
+      ...(esFuerza
+        ? { series: valores.series, repeticiones: valores.repeticiones, carga: valores.carga, minutos: valores.series * MINUTOS_POR_SERIE }
+        : { duracion: valores.duracion, minutos: valores.duracion }),
+    }
+    if (editando) {
+      actualizarRegistro(editando.id, datos)
+      navigate(`/registro/${editando.id}`, { replace: true })
+      return
+    }
     anadirRegistro({
       tipo: 'ejercicio',
       fecha: claveFecha(),
-      hora: /^\d{2}:\d{2}$/.test(hora) ? hora : horaActual(),
       ejercicioId: ejercicio.id,
       nombre: ejercicio.nombre,
       grupo: ejercicio.grupo,
       categoria: ejercicio.tipo,
-      ...(esFuerza
-        ? { series: valores.series, repeticiones: valores.repeticiones, carga: valores.carga, minutos: valores.series * MINUTOS_POR_SERIE }
-        : { duracion: valores.duracion, minutos: valores.duracion }),
+      ...datos,
     })
     navigate('/')
   }
@@ -63,7 +79,11 @@ export default function EjercicioDetalle() {
   return (
     <div className="pantalla pantalla-form" style={{ gap: 20 }}>
       <header className="cabecera">
-        <Link to="/ejercicio" className="ft-icon-btn boton-44" aria-label="Volver a elegir ejercicio">
+        <Link
+          to={editando ? `/registro/${editando.id}` : '/ejercicio'}
+          className="ft-icon-btn boton-44"
+          aria-label={editando ? 'Volver sin guardar' : 'Volver a elegir ejercicio'}
+        >
           <Icon name="atras" />
         </Link>
         <h1 className="titulo-seccion">{ejercicio.nombre}</h1>

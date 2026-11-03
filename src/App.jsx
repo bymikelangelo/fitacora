@@ -10,6 +10,7 @@ import ManoBuscar from './pages/ManoBuscar.jsx'
 import ManoRevisar from './pages/ManoRevisar.jsx'
 import EjercicioElegir from './pages/EjercicioElegir.jsx'
 import EjercicioDetalle from './pages/EjercicioDetalle.jsx'
+import RegistroVer from './pages/RegistroVer.jsx'
 
 /** Pantallas del lienzo «Fitácora · Pantallas y flujos», numeradas como allí. */
 export default function App() {
@@ -26,6 +27,7 @@ export default function App() {
       <Route path="/comida/revisar" element={<ManoRevisar />} /> {/* 9 */}
       <Route path="/ejercicio" element={<EjercicioElegir />} /> {/* 10 */}
       <Route path="/ejercicio/:id" element={<EjercicioDetalle />} /> {/* 11 */}
+      <Route path="/registro/:id" element={<RegistroVer />} /> {/* 12 y 13 */}
       <Route path="*" element={<Inicio />} />
     </Routes>
   )

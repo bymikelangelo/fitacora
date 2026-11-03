@@ -1,6 +1,6 @@
 /*
  * Estilos de los componentes Fitácora.
- * Copia de project/components/bundle.css del sistema de diseño (versión 1793711285-e183).
+ * Copia de components/bundle.css del sistema de diseño (la del lienzo, 3 nov 2026).
  * Las fuentes se cargan en index.html.
  */
 
@@ -17,6 +17,9 @@ body { margin: 0; font-family: var(--font-sans); font-size: 16px; line-height: 2
 .ft-btn-sm { min-height: 36px; padding: 0 var(--space-4); font-size: 14px; }
 .ft-btn-sm .ft-icon { width: 18px; height: 18px; }
 .ft-btn:focus-visible, .ft-day:focus-visible, .ft-icon-btn:focus-visible, .ft-option:focus-visible, .ft-link:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand-strong); }
+/* Botón de aviso: solo para borrar un registro */
+.ft-btn-warning { background: var(--danger); color: var(--on-danger); }
+.ft-btn-warning:focus-visible { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--danger); }
 
 /* Etiqueta IA */
 .ft-ai-tag { display: inline-flex; align-items: center; height: 20px; padding: 0 var(--space-2); border-radius: var(--radius-full); background: var(--ai); color: var(--on-fill); font-size: 12px; font-weight: 400; letter-spacing: .04em; }
@@ -70,3 +73,8 @@ body { margin: 0; font-family: var(--font-sans); font-size: 16px; line-height: 2
 .ft-empty { padding: var(--space-4) 0; color: var(--ink-muted); font-size: 14px; line-height: 20px; }
 
 @media (prefers-reduced-motion: reduce) { .ft-btn { transition: none; } }
+
+/* Fila de lista que abre el registro (añadido en la app, no está en el sistema de diseño) */
+.ft-item-abrible { padding: 0; }
+.ft-item-boton { font: inherit; width: 100%; display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) 0; border: 0; background: transparent; color: var(--ink); text-align: left; cursor: pointer; }
+.ft-item-boton:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--surface-raised), 0 0 0 4px var(--brand-strong); border-radius: var(--radius-sm); }

@@ -1,22 +1,46 @@
 import { useState } from 'react'
-import { Navigate, useLocation, useNavigate } from 'react-router'
+import { Navigate, useLocation, useNavigate, useSearchParams } from 'react-router'
 import { Icon } from '../design-system'
-import { ALIMENTOS, etiquetaMomento } from '../data/catalogo.js'
-import { anadirRegistro } from '../data/store.js'
+import { ALIMENTOS, MOMENTOS, etiquetaMomento } from '../data/catalogo.js'
+import { actualizarRegistro, anadirRegistro, buscarRegistro, useDatos } from '../data/store.js'
 import { claveFecha, horaActual } from '../lib/fechas.js'
 import { casillasNutrientes, sumarNutrientes } from '../lib/nutricion.js'
 
 const soloCifras = (v) => String(v).replace(/[^0-9]/g, '').slice(0, 4)
 
-/** 9 · Revisar comida a mano — artboard ManoRevisar.dc.html */
+/** Estado inicial al editar una comida a mano guardada. */
+function desdeRegistro(r) {
+  const alimentos = (r.alimentos ?? [])
+    .map((a) => ({ ...a, id: a.id ?? ALIMENTOS.find((x) => x.nombre === a.nombre)?.id }))
+    .filter((a) => a.id)
+  return {
+    editarId: r.id,
+    sel: alimentos.map((a) => a.id),
+    gramos: Object.fromEntries(alimentos.map((a) => [a.id, String(a.gramos)])),
+    momento: MOMENTOS.find((m) => m.label === r.momento)?.id ?? 'almuerzo',
+    nombre: r.nombre,
+  }
+}
+
+/**
+ * 9 · Revisar comida a mano — artboard ManoRevisar.dc.html
+ * Con ?editar=<id> (desde «12 · Detalle de comida») corrige una comida guardada.
+ */
 export default function ManoRevisar() {
   const navigate = useNavigate()
-  const previo = useLocation().state
+  const [params] = useSearchParams()
+  const { registros } = useDatos()
+  const location = useLocation()
+  const [previo] = useState(() => {
+    const r = buscarRegistro(registros, params.get('editar'))
+    return location.state ?? (r ? desdeRegistro(r) : null)
+  })
   const [nombre, setNombre] = useState(() => previo?.nombre ?? '')
   const [gramos, setGramos] = useState(() => previo?.gramos ?? {})
 
   if (!previo?.sel?.length) return <Navigate to="/comida/buscar" replace />
 
+  const editando = previo.editarId ? buscarRegistro(registros, previo.editarId) : null
   const alimentos = previo.sel
     .map((id) => ALIMENTOS.find((a) => a.id === id))
     .filter(Boolean)
@@ -24,20 +48,22 @@ export default function ManoRevisar() {
   const totales = sumarNutrientes(alimentos)
 
   // Vuelve a «Buscar alimentos» conservando lo elegido y lo escrito.
-  const volverABuscar = () =>
-    navigate('/comida/buscar', { state: { sel: previo.sel, momento: previo.momento, gramos, nombre } })
+  const volverABuscar = () => navigate('/comida/buscar', { state: { ...previo, gramos, nombre } })
 
   function guardar() {
-    anadirRegistro({
-      tipo: 'comida',
-      fecha: claveFecha(),
-      hora: horaActual(),
+    const datos = {
       momento: etiquetaMomento(previo.momento),
       nombre: nombre.trim() || alimentos.map((a) => a.nombre).join(', '),
-      ia: false,
-      alimentos: alimentos.map((a) => ({ nombre: a.nombre, gramos: Number(a.gramos) || 0 })),
+      // Se guardan los valores por 100 g para poder recalcular al editar.
+      alimentos: alimentos.map((a) => ({ id: a.id, nombre: a.nombre, gramos: Number(a.gramos) || 0, kcal: a.kcal, p: a.p, h: a.h, g: a.g, f: a.f })),
       nutrientes: totales,
-    })
+    }
+    if (editando) {
+      actualizarRegistro(editando.id, datos)
+      navigate(`/registro/${editando.id}`, { replace: true })
+      return
+    }
+    anadirRegistro({ tipo: 'comida', fecha: claveFecha(), hora: horaActual(), ia: false, ...datos })
     navigate('/')
   }
 

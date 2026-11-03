@@ -16,17 +16,33 @@ function ListHead({ title, onAdd, addLabel }) {
 }
 
 /**
+ * Fila de lista. Con `onOpen`, toda la fila es un botón que abre el registro
+ * (añadido en la app: el lienzo tiene las pantallas de detalle, pero no cómo se llega).
+ */
+function Fila({ onOpen, children }) {
+  if (!onOpen) return <li className="ft-item">{children}</li>
+  return (
+    <li className="ft-item ft-item-abrible">
+      <button type="button" className="ft-item-boton" onClick={onOpen}>
+        {children}
+        <Icon name="adelante" />
+      </button>
+    </li>
+  )
+}
+
+/**
  * Los ejercicios de un día.
  * @param {{ items: Array<{ name: string, group?: string, time?: string, sets?: number, reps?: number|string, load?: string, duration?: number }>, title?: string, onAdd?: () => void, addLabel?: string, emptyText?: string }} props
  */
-export function ExerciseList({ items = [], title = 'Ejercicios', onAdd, addLabel, emptyText }) {
+export function ExerciseList({ items = [], title = 'Ejercicios', onAdd, addLabel, emptyText, onOpen }) {
   return (
     <section aria-label={title}>
       <ListHead title={title} onAdd={onAdd} addLabel={addLabel} />
       <ul className="ft-list">
         {items.length ? (
           items.map((e, i) => (
-            <li key={i} className="ft-item">
+            <Fila key={i} onOpen={onOpen && (() => onOpen(i))}>
               <span className="ft-bubble">
                 <Icon name="fuerza" />
               </span>
@@ -38,7 +54,7 @@ export function ExerciseList({ items = [], title = 'Ejercicios', onAdd, addLabel
                 {e.sets ? <span>{`${e.sets} × ${e.reps}`}</span> : null}
                 {e.load || e.duration ? <span>{e.load || `${e.duration} min`}</span> : null}
               </span>
-            </li>
+            </Fila>
           ))
         ) : (
           <li className="ft-empty">{emptyText || 'Aún no has añadido ejercicios hoy.'}</li>
@@ -52,14 +68,14 @@ export function ExerciseList({ items = [], title = 'Ejercicios', onAdd, addLabel
  * Las comidas de un día. Las de la IA llevan «≈» y la etiqueta «IA».
  * @param {{ items: Array<{ name: string, meal?: string, time?: string, kcal?: number, ai?: boolean, photo?: string }>, title?: string, onAdd?: () => void, addLabel?: string, onReview?: (index: number) => void, emptyText?: string }} props
  */
-export function FoodList({ items = [], title = 'Comidas', onAdd, addLabel, onReview, emptyText }) {
+export function FoodList({ items = [], title = 'Comidas', onAdd, addLabel, onReview, emptyText, onOpen }) {
   return (
     <section aria-label={title}>
       <ListHead title={title} onAdd={onAdd} addLabel={addLabel} />
       <ul className="ft-list">
         {items.length ? (
           items.map((f, i) => (
-            <li key={i} className="ft-item">
+            <Fila key={i} onOpen={onOpen && (() => onOpen(i))}>
               {f.photo ? (
                 <img className="ft-thumb" src={f.photo} alt="" />
               ) : (
@@ -84,7 +100,7 @@ export function FoodList({ items = [], title = 'Comidas', onAdd, addLabel, onRev
               ) : onReview ? (
                 <span className="ft-edit" aria-hidden="true" />
               ) : null}
-            </li>
+            </Fila>
           ))
         ) : (
           <li className="ft-empty">{emptyText || 'Aún no has añadido comidas hoy.'}</li>

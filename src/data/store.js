@@ -13,7 +13,7 @@
  *   }
  *
  * Comida:    { id, tipo: 'comida', fecha: 'AAAA-MM-DD', hora: 'HH:MM', momento, nombre,
- *              ia, foto?, alimentos: [{ nombre, gramos }],
+ *              ia, foto?, alimentos: [{ id?, nombre, gramos, kcal, p, h, g, f }]  (valores por 100 g),
  *              nutrientes: { kcal, proteinas, hidratos, grasas, fibra } }
  * Ejercicio: { id, tipo: 'ejercicio', fecha, hora, ejercicioId, nombre, grupo, categoria,
  *              series?, repeticiones?, carga?, duracion?, minutos }
@@ -70,6 +70,18 @@ export function guardarPerfil(perfil) {
 
 export function anadirRegistro(registro) {
   guardar({ ...estado, registros: [...estado.registros, { id: crypto.randomUUID(), ...registro }] })
+}
+
+export function actualizarRegistro(id, cambios) {
+  guardar({ ...estado, registros: estado.registros.map((r) => (r.id === id ? { ...r, ...cambios, id } : r)) })
+}
+
+export function borrarRegistro(id) {
+  guardar({ ...estado, registros: estado.registros.filter((r) => r.id !== id) })
+}
+
+export function buscarRegistro(registros, id) {
+  return registros.find((r) => r.id === id) ?? null
 }
 
 /** Registros de un día ('AAAA-MM-DD'), por hora. */
