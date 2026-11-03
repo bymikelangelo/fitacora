@@ -1,4 +1,4 @@
-/* Constantes compartidas por los componentes del sistema de diseño. */
+/* Constantes y utilidades compartidas por los componentes del sistema de diseño. */
 
 export const DEFAULT_ADD_OPTIONS = [
   { id: 'photo', label: 'Fotografiar comida', hint: 'La IA estima los nutrientes', icon: 'camara', ai: true },
@@ -10,3 +10,10 @@ export const MONTHS = [
   'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
   'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre',
 ]
+
+/** Formato español con un decimal como mucho: 1.800,5 */
+export function formatNumber(n) {
+  const [int, dec] = String(Math.round(n * 10) / 10).split('.')
+  const grouped = int.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+  return dec ? `${grouped},${dec}` : grouped
+}

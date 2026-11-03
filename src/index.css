@@ -1,4 +1,4 @@
-/* Estilos comunes a todas las pantallas (los del <helmet> de cada artboard). */
+/* Estilos comunes a todas las pantallas (los que se repiten en el <helmet> de los artboards). */
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
@@ -16,7 +16,21 @@ a:hover { color: var(--action); }
 /* Las pantallas están diseñadas a 390 px de ancho (móvil). */
 .pantalla { width: 100%; max-width: 390px; margin: 0 auto; }
 
-/* Títulos: Fraunces 24/30 */
+/* Pantalla de formulario: 16 px de margen, botón principal al pie */
+.pantalla-form {
+  min-height: 100dvh;
+  padding: 16px 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.pie { margin-top: auto; display: flex; flex-direction: column; gap: 12px; }
+
+/* Cabecera con botón de volver y título */
+.cabecera { display: flex; align-items: center; gap: 12px; min-height: 44px; }
+.boton-44 { width: 44px; height: 44px; flex: none; }
+
+/* Títulos */
 .titulo-seccion {
   margin: 0;
   font-family: var(--font-display);
@@ -24,10 +38,95 @@ a:hover { color: var(--action); }
   line-height: 30px;
   font-weight: 400;
 }
+.subtitulo {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 400;
+}
+.etiqueta-seccion { margin: 0; font-size: 14px; line-height: 20px; font-weight: 400; }
 .texto-pequeno { margin: 0; font-size: 14px; line-height: 20px; color: var(--ink-muted); }
+.solo-lectores {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
 
-/* Enlaces y botones a todo el ancho */
+/* Enlaces con aspecto de botón y botones a todo el ancho */
 a.ft-btn { text-decoration: none; box-sizing: border-box; }
 a.ft-btn-primary, a.ft-btn-primary:hover { color: var(--on-brand); }
 a.ft-icon-btn { text-decoration: none; }
 .boton-ancho { width: 100%; box-sizing: border-box; }
+
+/* Tarjeta (fondo elevado con borde) */
+.tarjeta {
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+
+/* Campos */
+.campo {
+  width: 100%;
+  height: 48px;
+  padding: 0 12px;
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface-raised);
+  border: 1.5px solid var(--brand-strong);
+  border-radius: var(--radius-sm);
+}
+.campo::placeholder { color: var(--ink-muted); }
+.campo:focus { outline: none; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand-strong); }
+
+/* Buscador con lupa */
+.buscador { position: relative; }
+.buscador-lupa { position: absolute; left: 14px; top: 14px; color: var(--ink-muted); display: flex; }
+.buscador .campo { padding-left: 44px; }
+
+/* Grupo de opciones (radio con aspecto de botón) */
+.opciones { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.opcion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 4px;
+  font-size: 14px;
+  line-height: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  color: var(--ink);
+  background: var(--surface-raised);
+  border: 1.5px solid var(--line);
+}
+.opcion.activa { background: var(--brand); border: 2px solid var(--brand-strong); }
+.opcion input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.opcion:focus-within { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand-strong); }
+.grupo-opciones { margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 6px; }
+.grupo-opciones legend { padding: 0; margin-bottom: 6px; font-size: 14px; line-height: 20px; }
+
+/* Campo pequeño de gramos */
+.gramos {
+  width: 64px;
+  height: 32px;
+  padding: 0 8px;
+  font: inherit;
+  font-size: 14px;
+  text-align: right;
+  color: var(--ink);
+  background: var(--surface-raised);
+  border: 1.5px solid var(--brand-strong);
+  border-radius: 8px;
+  font-variant-numeric: tabular-nums;
+}
+.gramos:focus { outline: none; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand-strong); }
+
+/* Casillas de nutrientes (3 columnas) */
+.nutrientes { margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.nutrientes > div { padding: 8px 10px; background: var(--surface-raised); border: 1px solid var(--line); border-radius: 8px; }
+.nutrientes dt { display: flex; align-items: center; gap: 6px; font-size: 14px; line-height: 20px; color: var(--ink-muted); }
+.nutrientes dd { margin: 0; font-variant-numeric: tabular-nums; }
+
+.seccion { display: flex; flex-direction: column; gap: 6px; }
+.cifras { font-variant-numeric: tabular-nums; }

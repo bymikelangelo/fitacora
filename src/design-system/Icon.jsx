@@ -1,8 +1,10 @@
 /*
  * Iconos propios de Fitácora: rejilla 24, trazo 1,75 en currentColor.
  * Copia de los iconos de trazo de project/components/bundle.js del sistema de diseño.
- * (Las siluetas de grupos musculares se añadirán cuando una pantalla las use.)
+ * Las siluetas de grupos musculares (m-*, h-*) están en siluetas.json.
  */
+import SILUETAS from './siluetas.json'
+
 const ICONS = {
   anadir: 'M12 5.5v13|M5.5 12h13',
   cerrar: 'M7 7l10 10|M17 7 7 17',
@@ -48,6 +50,17 @@ const ICONS = {
 export function Icon({ name, size, label, className }) {
   const style = size ? { width: size, height: size } : undefined
   const a11y = label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': true }
+  if (SILUETAS[name]) {
+    return (
+      <svg
+        className={['ft-icon', 'ft-icon-body', className].filter(Boolean).join(' ')}
+        viewBox="0 0 24 24"
+        style={style}
+        dangerouslySetInnerHTML={{ __html: SILUETAS[name] }}
+        {...a11y}
+      />
+    )
+  }
   return (
     <svg
       className={['ft-icon', className].filter(Boolean).join(' ')}

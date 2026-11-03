@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
 import { Button, Icon } from '../design-system'
-import { guardarPerfil, leerPerfil } from '../data/perfil.js'
+import { guardarPerfil, leerPerfil } from '../data/store.js'
 import logo from '../assets/fitacora-logo.svg'
 import './Cuestionario.css'
 

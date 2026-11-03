@@ -1,0 +1,95 @@
+/* 5 · Cámara — artboard FotoCamara.dc.html (pantalla oscura) */
+.camara {
+  position: relative;
+  height: 100dvh;
+  overflow: hidden;
+  background: #151816;
+  color: #eef0ea;
+}
+.camara a { color: #eef0ea; }
+.camara a:hover { color: #cfe5d6; }
+.camara .oscuro { border-color: #9cc7b0; color: #eef0ea; }
+
+.camara-visor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 200px;
+  background: #232826;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.camara-visor video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.camara-marco { width: 300px; height: 300px; position: relative; }
+.camara-marco > span { position: absolute; width: 36px; height: 36px; }
+.camara-marco .esq-1 { left: 0; top: 0; border-left: 3px solid #eef0ea; border-top: 3px solid #eef0ea; border-top-left-radius: 14px; }
+.camara-marco .esq-2 { right: 0; top: 0; border-right: 3px solid #eef0ea; border-top: 3px solid #eef0ea; border-top-right-radius: 14px; }
+.camara-marco .esq-3 { left: 0; bottom: 0; border-left: 3px solid #eef0ea; border-bottom: 3px solid #eef0ea; border-bottom-left-radius: 14px; }
+.camara-marco .esq-4 { right: 0; bottom: 0; border-right: 3px solid #eef0ea; border-bottom: 3px solid #eef0ea; border-bottom-right-radius: 14px; }
+.camara-aviso {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 40px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 20px;
+  color: #a4aea7;
+}
+
+.camara-arriba {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.camara-velo { background: rgba(21, 24, 22, 0.6); }
+.camara-pista {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 9999px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.camara-abajo {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 200px;
+  padding: 24px 32px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.camara-abajo p { margin: 0; font-size: 14px; line-height: 20px; color: #a4aea7; text-align: center; }
+.camara-controles { width: 100%; display: flex; align-items: center; justify-content: space-between; }
+.camara-galeria { width: 52px; height: 52px; }
+.disparador {
+  width: 76px;
+  height: 76px;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 9999px;
+  background: #507d6b;
+  box-shadow: inset 0 0 0 4px #151816, 0 0 0 3px #eef0ea;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+.disparador:focus-visible { outline: none; box-shadow: inset 0 0 0 4px #151816, 0 0 0 3px #151816, 0 0 0 5px #9cc7b0; }

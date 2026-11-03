@@ -1,51 +1,16 @@
-/* 3 · Inicio — artboard Inicio.dc.html (vista de inicio) */
+/* 3 · Inicio — artboard Inicio.dc.html */
 .inicio {
   position: relative;
   min-height: 100dvh;
-  box-sizing: border-box;
   padding: 16px 16px 96px; /* hueco para el botón Añadir */
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.inicio-cabecera {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: 44px;
-}
-.inicio-cabecera .ft-icon-btn { width: 44px; height: 44px; flex: none; }
+.inicio-cabecera { justify-content: space-between; }
 
 .inicio-hoy { display: flex; flex-direction: column; gap: 8px; }
 .inicio-hoy-cabecera { display: flex; align-items: baseline; justify-content: space-between; }
-.inicio-hoy-titulo {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 20px;
-  line-height: 26px;
-  font-weight: 400;
-}
-
-.inicio-balance {
-  padding: 4px 16px 12px;
-  background: var(--surface-raised);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-}
-.fila { display: flex; align-items: center; gap: 8px; min-height: 40px; border-top: 1px solid var(--line); }
-.fila:first-child { border-top: 0; }
-.fila-etiqueta { flex: 1; }
-.fila-valor { font-variant-numeric: tabular-nums; }
-.fila-rango {
-  width: 104px;
-  text-align: right;
-  font-size: 14px;
-  line-height: 20px;
-  color: var(--ink-muted);
-  font-variant-numeric: tabular-nums;
-}
-.inicio-balance-nota { margin: 4px 0 0; }
 
 .inicio-anadir {
   position: fixed;

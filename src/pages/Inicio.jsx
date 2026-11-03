@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import { Link, Navigate } from 'react-router'
+import { Link, Navigate, useNavigate, useSearchParams } from 'react-router'
 import { AddEntry, Calendar, Icon } from '../design-system'
-import { leerPerfil } from '../data/perfil.js'
+import BalanceDia from '../components/BalanceDia.jsx'
+import { registrosDelDia, registrosDelMes, useDatos } from '../data/store.js'
+import { claveFecha } from '../lib/fechas.js'
 import './Inicio.css'
 
 function saludoSegunHora(hora) {
@@ -10,85 +12,58 @@ function saludoSegunHora(hora) {
   return 'Buenas noches'
 }
 
-/** 1234 → «1.234» */
-const miles = (n) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+const RUTAS_ANADIR = { photo: '/comida/foto', food: '/comida/buscar', exercise: '/ejercicio' }
 
-/**
- * Balance de un día frente al rango recomendado (EFSA y OMS).
- * Todavía no se pueden registrar comidas ni ejercicios, así que de momento
- * se calcula sobre listas vacías.
- */
-function balance({ comidas, ejercicios }) {
-  const kcal = comidas.reduce((s, c) => s + c.kcal, 0)
-  const prot = comidas.reduce((s, c) => s + c.p, 0)
-  const min = ejercicios.reduce((s, e) => s + e.min, 0)
-  return [
-    { icon: 'energia', label: 'Energía', valor: `≈ ${miles(kcal)} kcal`, rango: '≈ 1.800–2.300' },
-    { icon: 'proteinas', label: 'Proteínas', valor: `≈ ${prot} g`, rango: '≈ 50–70 g' },
-    { icon: 'duracion', label: 'Actividad', valor: `≈ ${min} min`, rango: '≈ 30–60 min' },
-  ]
-}
-
-/** 3 · Inicio */
+/** 3 · Inicio. El mes que se ve va en la dirección (?mes=AAAA-MM) para volver a él desde un día. */
 export default function Inicio() {
-  const [perfil] = useState(leerPerfil)
+  const navigate = useNavigate()
+  const [params, setParams] = useSearchParams()
+  const { perfil, registros } = useDatos()
   const [hoy] = useState(() => new Date())
-  const [mes, setMes] = useState(() => ({ y: hoy.getFullYear(), m: hoy.getMonth() }))
 
   // Primer acceso: sin perfil, empezamos por la bienvenida.
   if (!perfil?.nombre) return <Navigate to="/bienvenida" replace />
 
-  const { y, m } = mes
+  const [py, pm] = (params.get('mes') ?? '').split('-').map(Number)
+  const y = py || hoy.getFullYear()
+  const m = pm ? pm - 1 : hoy.getMonth()
+  const irAMes = (yy, mm) => setParams({ mes: `${yy}-${String(mm + 1).padStart(2, '0')}` }, { replace: true })
+
   const esMesActual = y === hoy.getFullYear() && m === hoy.getMonth()
-  const saludo = `${saludoSegunHora(hoy.getHours())}, ${perfil.nombre}`
-  const registrosHoy = { comidas: [], ejercicios: [] }
+  const hoyClave = claveFecha(hoy)
 
   return (
     <div className="pantalla inicio">
-      <header className="inicio-cabecera">
-        <h1 className="titulo-seccion">{saludo}</h1>
-        <Link to="/cuestionario" className="ft-icon-btn" aria-label="Perfil">
+      <header className="cabecera inicio-cabecera">
+        <h1 className="titulo-seccion">{`${saludoSegunHora(hoy.getHours())}, ${perfil.nombre}`}</h1>
+        <Link to="/cuestionario" className="ft-icon-btn boton-44" aria-label="Perfil">
           <Icon name="perfil" />
         </Link>
       </header>
 
-      {/* Tocar un día abre «4 · Día seleccionado», que aún no está implementada. */}
       <Calendar
         year={y}
         month={m}
-        records={{}}
+        records={registrosDelMes(registros, y, m)}
         today={esMesActual ? hoy.getDate() : 0}
         selected={0}
-        onPrev={() => setMes({ y: m === 0 ? y - 1 : y, m: m === 0 ? 11 : m - 1 })}
-        onNext={() => setMes({ y: m === 11 ? y + 1 : y, m: m === 11 ? 0 : m + 1 })}
+        onSelect={(d) => navigate(`/dia/${claveFecha(new Date(y, m, d))}`)}
+        onPrev={() => irAMes(m === 0 ? y - 1 : y, m === 0 ? 11 : m - 1)}
+        onNext={() => irAMes(m === 11 ? y + 1 : y, m === 11 ? 0 : m + 1)}
       />
 
       <section aria-labelledby="hoy-titulo" className="inicio-hoy">
         <div className="inicio-hoy-cabecera">
-          <h2 id="hoy-titulo" className="inicio-hoy-titulo">Hoy</h2>
-          {/* Lleva a «4 · Día seleccionado» (pendiente). */}
-          <button type="button" className="ft-link">
+          <h2 id="hoy-titulo" className="subtitulo">Hoy</h2>
+          <button type="button" className="ft-link" onClick={() => navigate(`/dia/${hoyClave}`)}>
             Ver detalle
           </button>
         </div>
-        <div className="inicio-balance">
-          <div>
-            {balance(registrosHoy).map((b) => (
-              <div key={b.label} className="fila">
-                <Icon name={b.icon} />
-                <span className="fila-etiqueta">{b.label}</span>
-                <span className="fila-valor">{b.valor}</span>
-                <span className="fila-rango">{b.rango}</span>
-              </div>
-            ))}
-          </div>
-          <p className="texto-pequeno inicio-balance-nota">Rango recomendado a la derecha · EFSA y OMS</p>
-        </div>
+        <BalanceDia registros={registrosDelDia(registros, hoyClave)} />
       </section>
 
-      {/* Las opciones abren los flujos de añadir (pantallas 5–11, pendientes). */}
       <div className="inicio-anadir">
-        <AddEntry />
+        <AddEntry onSelect={(id) => navigate(RUTAS_ANADIR[id])} />
       </div>
     </div>
   )

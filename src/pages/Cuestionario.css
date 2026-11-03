@@ -18,19 +18,6 @@
 .cuestionario-campo label,
 .cuestionario-sexo legend { font-size: 14px; line-height: 20px; }
 
-.campo {
-  width: 100%;
-  box-sizing: border-box;
-  height: 48px;
-  padding: 0 12px;
-  font: inherit;
-  color: var(--ink);
-  background: var(--surface-raised);
-  border: 1.5px solid var(--brand-strong);
-  border-radius: var(--radius-sm);
-}
-.campo::placeholder { color: var(--ink-muted); }
-.campo:focus { outline: none; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand-strong); }
 
 .cuestionario-error { margin: 0; font-size: 14px; line-height: 20px; color: var(--danger); }
 
@@ -38,26 +25,8 @@
 .cuestionario-sexo legend { padding: 0; margin-bottom: 6px; }
 .cuestionario-tres { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 
-.opcion {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 48px;
-  padding: 4px 8px;
-  text-align: center;
-  font-size: 14px;
-  line-height: 18px;
-  border-radius: 8px;
-  cursor: pointer;
-  position: relative;
-  color: var(--ink);
-  box-sizing: border-box;
-  background: var(--surface-raised);
-  border: 1.5px solid var(--line);
-}
-.opcion.activa { background: var(--brand); border: 2px solid var(--brand-strong); }
-.opcion input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
-.opcion:focus-within { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand-strong); }
+/* Opciones del cuestionario: algo más altas que las del resto de pantallas */
+.cuestionario .opcion { min-height: 48px; padding: 4px 8px; text-align: center; }
 
 .campo-unidad { position: relative; }
 .campo-unidad .campo { font-variant-numeric: tabular-nums; }
