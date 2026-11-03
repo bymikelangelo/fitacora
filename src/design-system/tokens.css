@@ -1,0 +1,79 @@
+/*
+ * Tokens del sistema de diseño Fitácora (v8).
+ * Fuente: artefacto «Fitácora» (Design System) → project/tokens.json.
+ *
+ * Pasteles sobre papel. Pino para las acciones, melocotón para destacar,
+ * mantequilla solo para la IA. Ningún color evalúa.
+ */
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Hanken+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+:root {
+  color-scheme: light;
+
+  /* Color — tema claro */
+  --surface: #f7f4ee;          /* Papel: fondo */
+  --surface-raised: #fffdf9;   /* Tarjetas y hojas */
+  --ink: #1f2622;              /* Texto principal */
+  --ink-muted: #5b635e;        /* Texto secundario */
+  --line: #dfd9cc;             /* Separadores (decorativo) */
+  --on-fill: #1f2622;          /* Texto sobre rellenos pastel */
+  --brand: #cfe5d6;            /* Pino pastel */
+  --brand-strong: #578874;     /* Pino corporativo: acciones */
+  --on-brand: #ffffff;         /* Texto sobre pino (solo tamaño grande) */
+  --accent: #f8d5c2;           /* Melocotón pastel: destacar. Nunca en botones */
+  --accent-strong: #db8e6d;    /* Melocotón corporativo: logo y decoración grande */
+  --ai: #f6e8a8;               /* Mantequilla: la IA */
+  --ai-strong: #7a5c00;        /* Etiqueta y texto de la IA */
+  --danger: #b3261e;           /* Solo errores de formulario y borrar */
+
+  /* Tipografía */
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Espaciado (base 4px) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Radios */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-full: 9999px;
+}
+
+/* Tema oscuro: sigue al sistema salvo que se fuerce el claro */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --surface: #151816;
+    --surface-raised: #1e2220;
+    --ink: #eef0ea;
+    --ink-muted: #a4aea7;
+    --line: #333a36;
+    --on-fill: #161a17;
+    --brand: #9cc7b0;
+    --accent: #e9b49a;
+    --ai: #e6d17e;
+    --ai-strong: #f0cd57;
+    --danger: #ff8f86;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #151816;
+  --surface-raised: #1e2220;
+  --ink: #eef0ea;
+  --ink-muted: #a4aea7;
+  --line: #333a36;
+  --on-fill: #161a17;
+  --brand: #9cc7b0;
+  --accent: #e9b49a;
+  --ai: #e6d17e;
+  --ai-strong: #f0cd57;
+  --danger: #ff8f86;
+}

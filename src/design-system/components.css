@@ -1,0 +1,65 @@
+/*
+ * Estilos de los componentes Fitácora.
+ * Fuente: artefacto «Fitácora» (Design System) → project/components/bundle.css.
+ * Prefijo .ft- para no chocar con estilos propios de cada pantalla.
+ */
+.ft-icon { width: 20px; height: 20px; flex: none; }
+
+/* Botón */
+.ft-btn { font: inherit; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 48px; padding: 0 var(--space-6); border-radius: var(--radius-full); border: 2px solid transparent; cursor: pointer; transition: transform .16s ease-out, background-color .16s ease-out; }
+.ft-btn:active { transform: scale(.98); }
+.ft-btn-primary { background: var(--brand-strong); color: var(--on-brand); font-size: 19px; font-weight: 700; }
+.ft-btn-secondary { background: transparent; color: var(--ink); border-color: var(--brand-strong); }
+.ft-btn-sm { min-height: 36px; padding: 0 var(--space-4); font-size: 14px; }
+.ft-btn-sm .ft-icon { width: 18px; height: 18px; }
+.ft-btn:focus-visible, .ft-day:focus-visible, .ft-icon-btn:focus-visible, .ft-option:focus-visible, .ft-link:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand-strong); }
+
+/* Etiqueta IA */
+.ft-ai-tag { display: inline-flex; align-items: center; height: 20px; padding: 0 var(--space-2); border-radius: var(--radius-full); background: var(--ai); color: var(--on-fill); font-size: 11px; font-weight: 600; letter-spacing: .06em; }
+
+/* Añadir */
+.ft-add { display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-3); }
+.ft-add-sheet { width: 100%; max-width: 340px; box-sizing: border-box; background: var(--surface-raised); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-2); box-shadow: 0 12px 28px -6px rgba(0,0,0,.18); }
+.ft-add-title { margin: 0; padding: var(--space-2) var(--space-3) var(--space-2); font-family: var(--font-display); font-size: 22px; line-height: 28px; font-weight: 600; }
+.ft-option { font: inherit; width: 100%; display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--ink); text-align: left; cursor: pointer; }
+.ft-option:hover { background: var(--surface); }
+.ft-option-text { flex: 1; display: flex; flex-direction: column; }
+.ft-option-text b { font-weight: 600; }
+.ft-option-text span { font-size: 14px; line-height: 20px; color: var(--ink-muted); }
+.ft-bubble { width: 40px; height: 40px; border-radius: var(--radius-full); background: var(--accent); color: var(--on-fill); display: flex; align-items: center; justify-content: center; flex: none; }
+
+/* Calendario */
+.ft-cal { background: var(--surface-raised); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-4); }
+.ft-cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-3); }
+.ft-cal-title { margin: 0; font-family: var(--font-display); font-size: 22px; line-height: 28px; font-weight: 600; }
+.ft-cal-nav { display: flex; gap: var(--space-2); }
+.ft-icon-btn { width: 36px; height: 36px; border-radius: var(--radius-full); border: 2px solid var(--brand-strong); background: transparent; color: var(--ink); display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
+.ft-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.ft-dow { text-align: center; font-size: 12px; line-height: 16px; font-weight: 600; color: var(--ink-muted); padding-bottom: var(--space-2); text-transform: uppercase; }
+.ft-day { font: inherit; aspect-ratio: 1; min-height: 40px; border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--ink); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; cursor: pointer; padding: 0; }
+.ft-day-num { font-family: var(--font-mono); font-size: 15px; line-height: 20px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-full); }
+.ft-day-dot { width: 6px; height: 6px; border-radius: var(--radius-full); background: var(--brand-strong); }
+.ft-day-dot.is-empty { background: transparent; }
+.ft-day-today .ft-day-num { box-shadow: inset 0 0 0 2px var(--brand-strong); font-weight: 500; }
+.ft-day[aria-pressed="true"] { background: var(--accent); color: var(--on-fill); }
+.ft-day[aria-pressed="true"] .ft-day-dot { background: var(--on-fill); }
+.ft-day[aria-pressed="true"] .ft-day-dot.is-empty { background: transparent; }
+.ft-day-out { visibility: hidden; }
+.ft-cal-legend { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-3); font-size: 14px; line-height: 20px; color: var(--ink-muted); }
+.ft-cal-legend i { width: 6px; height: 6px; border-radius: var(--radius-full); background: var(--brand-strong); }
+
+/* Listas */
+.ft-list-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-3); }
+.ft-list-title { margin: 0; font-family: var(--font-display); font-size: 22px; line-height: 28px; font-weight: 600; }
+.ft-list { list-style: none; margin: 0; padding: 0 var(--space-4); background: var(--surface-raised); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.ft-item { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) 0; }
+.ft-item + .ft-item { border-top: 1px solid var(--line); }
+.ft-item-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.ft-item-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ft-item-meta { font-size: 14px; line-height: 20px; color: var(--ink-muted); display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+.ft-item-data { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 14px; line-height: 20px; text-align: right; white-space: nowrap; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.ft-thumb { width: 48px; height: 48px; border-radius: var(--radius-sm); object-fit: cover; flex: none; background: var(--accent); color: var(--on-fill); display: flex; align-items: center; justify-content: center; }
+.ft-link { font: inherit; font-family: var(--font-sans); font-size: 14px; line-height: 20px; font-weight: 600; color: var(--ink); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-decoration-color: var(--brand-strong); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.ft-empty { padding: var(--space-4) 0; color: var(--ink-muted); font-size: 14px; line-height: 20px; }
+
+@media (prefers-reduced-motion: reduce) { .ft-btn { transition: none; } }
