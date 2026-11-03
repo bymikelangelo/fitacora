@@ -1,0 +1,34 @@
+/*
+ * Tokens del sistema de diseño Fitácora (tokens.json, versión 9).
+ * Mismos valores que usan las pantallas del lienzo «Fitácora · Pantallas y flujos».
+ * Las pantallas están diseñadas en tema claro.
+ */
+:root {
+  --surface: #f7f4ee;
+  --surface-raised: #fffdf9;
+  --ink: #1f2622;
+  --ink-muted: #5b635e;
+  --line: #dfd9cc;
+  --on-fill: #1f2622;
+  --brand: #cfe5d6;
+  --brand-strong: #578874;
+  --action: #507d6b;
+  --on-brand: #ffffff;
+  --accent: #f8d5c2;
+  --accent-strong: #db8e6d;
+  --ai: #f6e8a8;
+  --ai-strong: #7a5c00;
+  --danger: #b3261e;
+
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-full: 9999px;
+}

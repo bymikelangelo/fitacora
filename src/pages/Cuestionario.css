@@ -1,0 +1,95 @@
+/* 2 · Cuestionario inicial — artboard Cuestionario.dc.html */
+.cuestionario {
+  min-height: 100dvh;
+  box-sizing: border-box;
+  padding: 16px 16px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.cuestionario-cabecera { display: flex; align-items: center; justify-content: space-between; height: 44px; }
+.cuestionario-cabecera .ft-icon-btn { width: 44px; height: 44px; }
+.cuestionario-logo { width: 105px; height: 24px; display: block; }
+.cuestionario-hueco { width: 44px; }
+
+.cuestionario-form { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; }
+.cuestionario-titulo { display: flex; flex-direction: column; gap: 4px; }
+.cuestionario-campo { display: flex; flex-direction: column; gap: 6px; }
+.cuestionario-campo label,
+.cuestionario-sexo legend { font-size: 14px; line-height: 20px; }
+
+.campo {
+  width: 100%;
+  box-sizing: border-box;
+  height: 48px;
+  padding: 0 12px;
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface-raised);
+  border: 1.5px solid var(--brand-strong);
+  border-radius: var(--radius-sm);
+}
+.campo::placeholder { color: var(--ink-muted); }
+.campo:focus { outline: none; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand-strong); }
+
+.cuestionario-error { margin: 0; font-size: 14px; line-height: 20px; color: var(--danger); }
+
+.cuestionario-sexo { margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 6px; }
+.cuestionario-sexo legend { padding: 0; margin-bottom: 6px; }
+.cuestionario-tres { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+
+.opcion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 4px 8px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  color: var(--ink);
+  box-sizing: border-box;
+  background: var(--surface-raised);
+  border: 1.5px solid var(--line);
+}
+.opcion.activa { background: var(--brand); border: 2px solid var(--brand-strong); }
+.opcion input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.opcion:focus-within { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand-strong); }
+
+.campo-unidad { position: relative; }
+.campo-unidad .campo { font-variant-numeric: tabular-nums; }
+.campo-unidad span {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  font-size: 14px;
+  color: var(--ink-muted);
+  pointer-events: none;
+}
+
+.cuestionario-pie { margin-top: auto; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+
+.cuestionario-hecho { display: flex; flex-direction: column; gap: 12px; padding-top: 24px; }
+.cuestionario-hecho p { margin: 0; color: var(--ink-muted); }
+
+.cuestionario-resumen {
+  margin: 0;
+  padding: 0 16px;
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+.cuestionario-resumen div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.cuestionario-resumen dt { color: var(--ink-muted); }
+.cuestionario-resumen dd { margin: 0; font-variant-numeric: tabular-nums; }
+
+.cuestionario-acciones { margin-top: auto; display: flex; flex-direction: column; gap: 12px; }

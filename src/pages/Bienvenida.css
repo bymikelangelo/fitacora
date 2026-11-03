@@ -1,0 +1,38 @@
+/* 1 · Bienvenida — lienzo «Fitácora · Pantallas y flujos», artboard Main.dc.html */
+.bienvenida {
+  min-height: 100dvh;
+  box-sizing: border-box;
+  padding: 56px 16px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.bienvenida-logo { width: 175px; height: 40px; display: block; }
+.bienvenida-intro { display: flex; flex-direction: column; gap: 8px; }
+.bienvenida-intro p { margin: 0; }
+
+.bienvenida-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0 16px;
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+.bienvenida-lista li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.bienvenida-lista li:last-child { border-bottom: 0; }
+.bienvenida-lista li > span:last-child { display: flex; flex-direction: column; }
+
+.bienvenida-pie {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}

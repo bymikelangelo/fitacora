@@ -1,6 +1,33 @@
+/* Estilos comunes a todas las pantallas (los del <helmet> de cada artboard). */
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 24px;
+  background: var(--surface);
+  color: var(--ink);
 }
+button, input, select, textarea, legend, dt, dd, .ft-btn, .ft-link, .ft-option { font-family: var(--font-sans); }
+a { color: var(--ink); }
+a:hover { color: var(--action); }
+
+/* Las pantallas están diseñadas a 390 px de ancho (móvil). */
+.pantalla { width: 100%; max-width: 390px; margin: 0 auto; }
+
+/* Títulos: Fraunces 24/30 */
+.titulo-seccion {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 400;
+}
+.texto-pequeno { margin: 0; font-size: 14px; line-height: 20px; color: var(--ink-muted); }
+
+/* Enlaces y botones a todo el ancho */
+a.ft-btn { text-decoration: none; box-sizing: border-box; }
+a.ft-btn-primary, a.ft-btn-primary:hover { color: var(--on-brand); }
+a.ft-icon-btn { text-decoration: none; }
+.boton-ancho { width: 100%; box-sizing: border-box; }
