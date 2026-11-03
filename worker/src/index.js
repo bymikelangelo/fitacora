@@ -88,20 +88,22 @@ const CATEGORIAS = ['fuerza', 'cardio', 'flexibilidad']
 const GRUPOS = ['pecho', 'espalda', 'hombros', 'brazos', 'abdomen', 'gluteos', 'piernas', 'cuerpo']
 const INTENSIDADES = ['suave', 'moderada', 'intensa']
 
+/** Un valor que puede ser `null`. La API no admite `type: ['string', 'null']` junto a `enum`. */
+const nulable = (esquema, description) => ({ anyOf: [esquema, { type: 'null' }], ...(description && { description }) })
+
 const ESQUEMA = {
   type: 'object',
   additionalProperties: false,
   required: ['tipo', 'comida', 'ejercicio'],
   properties: {
     tipo: { type: 'string', enum: ['comida', 'ejercicio', 'desconocido'] },
-    comida: {
-      type: ['object', 'null'],
-      description: "Solo si tipo = 'comida'. Si no, null.",
+    comida: nulable({
+      type: 'object',
       additionalProperties: false,
       required: ['nombre', 'momento', 'alimentos'],
       properties: {
         nombre: { type: 'string', description: 'Nombre corto en español de España' },
-        momento: { type: ['string', 'null'], enum: [...MOMENTOS, null], description: 'Solo si el texto lo dice. En una foto, siempre null.' },
+        momento: nulable({ type: 'string', enum: MOMENTOS }, 'Solo si el texto lo dice. En una foto, siempre null.'),
         alimentos: {
           type: 'array',
           minItems: 1,
@@ -122,23 +124,22 @@ const ESQUEMA = {
           },
         },
       },
-    },
-    ejercicio: {
-      type: ['object', 'null'],
-      description: "Solo si tipo = 'ejercicio'. Si no, null.",
+    }, "Solo si tipo = 'comida'. Si no, null."),
+    ejercicio: nulable({
+      type: 'object',
       additionalProperties: false,
       required: ['nombre', 'categoria', 'grupo', 'intensidad', 'duracion_min', 'series', 'repeticiones', 'carga_kg'],
       properties: {
         nombre: { type: 'string', description: 'Nombre corto en español de España' },
         categoria: { type: 'string', enum: CATEGORIAS },
         grupo: { type: 'string', enum: GRUPOS },
-        intensidad: { type: ['string', 'null'], enum: [...INTENSIDADES, null] },
-        duracion_min: { type: ['integer', 'null'], description: 'Cardio y flexibilidad. En fuerza, solo si se dice' },
-        series: { type: ['integer', 'null'], description: 'Solo fuerza' },
-        repeticiones: { type: ['integer', 'null'], description: 'Solo fuerza' },
-        carga_kg: { type: ['number', 'null'], description: 'Solo fuerza; null si es con el propio peso' },
+        intensidad: nulable({ type: 'string', enum: INTENSIDADES }, 'Solo si el texto lo indica'),
+        duracion_min: nulable({ type: 'integer' }, 'Cardio y flexibilidad. En fuerza, solo si se dice'),
+        series: nulable({ type: 'integer' }, 'Solo fuerza'),
+        repeticiones: nulable({ type: 'integer' }, 'Solo fuerza'),
+        carga_kg: nulable({ type: 'number' }, 'Solo fuerza; null si es con el propio peso'),
       },
-    },
+    }, "Solo si tipo = 'ejercicio'. Si no, null."),
   },
 }
 
