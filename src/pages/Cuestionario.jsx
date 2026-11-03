@@ -19,6 +19,8 @@ const VACIO = { nombre: '', sexo: 'mujer', edad: '', altura: '', peso: '' }
 /** 2 · Cuestionario inicial. También se abre desde el botón Perfil de Inicio. */
 export default function Cuestionario() {
   const [datos, setDatos] = useState(() => ({ ...VACIO, ...leerPerfil() }))
+  // Desde Perfil (ya hay perfil guardado) se vuelve a Inicio; en el primer acceso, a la Bienvenida.
+  const [volverA] = useState(() => (leerPerfil()?.nombre ? '/' : '/bienvenida'))
   const [hecho, setHecho] = useState(false)
   const [errorNombre, setErrorNombre] = useState(false)
 
@@ -46,7 +48,7 @@ export default function Cuestionario() {
   return (
     <div className="pantalla cuestionario">
       <div className="cuestionario-cabecera">
-        <Link to="/bienvenida" className="ft-icon-btn" aria-label="Volver">
+        <Link to={volverA} className="ft-icon-btn" aria-label="Volver">
           <Icon name="atras" />
         </Link>
         <img src={logo} alt="fitácora" className="cuestionario-logo" />

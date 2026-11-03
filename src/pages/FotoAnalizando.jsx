@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, Navigate } from 'react-router'
 import { Icon } from '../design-system'
 import { borradorFoto } from '../data/borrador.js'
-import { analizarFoto } from '../services/ai.js'
+import { ErrorIA, analizarFoto } from '../services/ai.js'
 
 const PASOS = ['Identificando los alimentos', 'Estimando las cantidades', 'Calculando los nutrientes']
 
@@ -10,7 +10,7 @@ const PASOS = ['Identificando los alimentos', 'Estimando las cantidades', 'Calcu
 export default function FotoAnalizando() {
   const [paso, setPaso] = useState(0)
   const [resultado, setResultado] = useState(null)
-  const [error, setError] = useState(false)
+  const [error, setError] = useState('')
   const foto = borradorFoto.foto
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function FotoAnalizando() {
         borradorFoto.resultado = r
         setResultado(r)
       })
-      .catch(() => vivo && setError(true))
+      .catch((e) => vivo && setError(e instanceof ErrorIA ? e.message : 'No se ha podido analizar la foto.'))
     return () => {
       vivo = false
       clearInterval(t)
@@ -84,7 +84,7 @@ export default function FotoAnalizando() {
           </Link>
         ) : (
           <p className="texto-pequeno" style={{ minHeight: 48, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {error ? 'No se ha podido analizar la foto.' : 'Suele tardar unos segundos.'}
+            {error || 'Suele tardar unos segundos.'}
           </p>
         )}
         <Link to="/comida/foto" className="ft-btn ft-btn-secondary boton-ancho">

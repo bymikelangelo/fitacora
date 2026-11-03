@@ -119,7 +119,7 @@ export default function FotoResultado() {
               {corrigiendo === i ? (
                 <>
                   <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 14, color: 'var(--ink-muted)' }}>
-                    <span className="solo-lectores">Gramos de {ing.nombre}</span>
+                    <span className="solo-lectores">Cantidad de {ing.nombre}</span>
                     <input
                       className="gramos"
                       type="text"
@@ -128,7 +128,7 @@ export default function FotoResultado() {
                       value={ing.gramos}
                       onChange={(e) => setGramos((g) => g.map((v, j) => (j === i ? soloCifras(e.target.value) : v)))}
                     />
-                    g
+                    {ing.unidad ?? 'g'}
                   </label>
                   <button type="button" className="ft-link" onClick={() => setCorrigiendo(-1)}>
                     Listo
@@ -136,7 +136,7 @@ export default function FotoResultado() {
                 </>
               ) : (
                 <>
-                  <span className="cifras" style={{ fontSize: 14, color: 'var(--ink-muted)' }}>≈ {ing.gramos} g</span>
+                  <span className="cifras" style={{ fontSize: 14, color: 'var(--ink-muted)' }}>≈ {ing.gramos} {ing.unidad ?? 'g'}</span>
                   <button
                     type="button"
                     className="ft-icon-btn"

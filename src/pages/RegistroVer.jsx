@@ -116,7 +116,7 @@ function DetalleComida({ comida }) {
               <span>{a.nombre}</span>
               <span className="cifras" style={{ fontSize: 14, color: 'var(--ink-muted)' }}>
                 {aprox}
-                {a.gramos} g
+                {a.gramos} {a.unidad ?? 'g'}
               </span>
             </div>
           ))}

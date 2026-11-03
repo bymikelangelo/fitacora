@@ -1,32 +1,94 @@
 /*
- * Servicio de IA de Fitácora — SIMULADO.
+ * Servicio de IA de Fitácora.
  *
- * Devuelve los mismos datos que el prototipo del lienzo para poder recorrer los
- * flujos sin servidor ni claves. Para conectar un modelo real, solo cambia este
- * archivo. Nunca pongas una clave de API en el código del navegador ni en
- * variables VITE_*: en GitHub Pages todo es público. La llamada real debe pasar
- * por una función intermedia (Cloudflare Workers, Vercel, Netlify…).
+ * Habla con el Worker de Cloudflare (carpeta worker/), que guarda la clave de
+ * Claude y hace la petición. La dirección del Worker no es secreta y va en la
+ * variable VITE_IA_URL (archivo .env.production). Si no está configurada, se
+ * usa una respuesta simulada para poder probar la app sin Worker.
+ *
+ * Las estructuras de la solicitud y la respuesta están en el documento
+ * «Fitácora · Estructuras JSON».
+ *
+ * Nunca pongas la clave de Claude en el código de la app ni en variables VITE_*:
+ * en GitHub Pages todo el código es público.
  */
 import { EJERCICIOS } from '../data/catalogo.js'
 import { claveFecha } from '../lib/fechas.js'
 
-const esperar = (ms) => new Promise((r) => setTimeout(r, ms))
+const IA_URL = import.meta.env.VITE_IA_URL
+
+/** Error con un mensaje que se puede enseñar a la persona. */
+export class ErrorIA extends Error {}
+
+const MENSAJES = {
+  sin_conexion: 'No hay conexión. Revisa tu internet y prueba otra vez.',
+  no_es_comida: 'No vemos comida en la foto. Prueba con otra.',
+  general: 'No se ha podido analizar la foto.',
+}
 
 /**
- * Analiza la foto de un plato. Por ahora siempre responde «Lentejas con verduras».
- * Los ingredientes llevan sus valores por 100 g para recalcular al cambiar gramos.
- * @param {string} _foto  dataURL de la imagen
+ * Envía una foto, un texto o ambos al Worker.
+ * @param {{ foto?: string|null, texto?: string|null }} solicitud  foto como data URL
+ * @returns {Promise<{ tipo: 'comida'|'ejercicio'|'desconocido', comida: object|null, ejercicio: object|null }>}
  */
-export async function analizarFoto(_foto) {
-  await esperar(2000)
+export async function analizar({ foto = null, texto = null }) {
+  if (!IA_URL) return analisisSimulado()
+
+  let respuesta
+  try {
+    respuesta = await fetch(`${IA_URL.replace(/\/$/, '')}/analizar`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ foto, texto }),
+    })
+  } catch {
+    throw new ErrorIA(MENSAJES.sin_conexion)
+  }
+  const datos = await respuesta.json().catch(() => null)
+  if (!respuesta.ok || !datos?.tipo) throw new ErrorIA(MENSAJES.general)
+  return datos
+}
+
+/**
+ * Flujo de la foto (pantallas 5–7). Devuelve el plato en el formato que usa
+ * la pantalla de revisión: { nombre, ingredientes: [{ nombre, gramos, unidad, kcal, p, h, g, f }] }
+ * (nutrientes por 100 g o 100 ml).
+ * @param {string} foto  data URL de la imagen (JPEG reducido a 1024 px)
+ */
+export async function analizarFoto(foto) {
+  const resultado = await analizar({ foto, texto: null })
+  if (resultado.tipo !== 'comida' || !resultado.comida) throw new ErrorIA(MENSAJES.no_es_comida)
   return {
-    nombre: 'Lentejas con verduras',
-    ingredientes: [
-      { nombre: 'Lentejas cocidas', gramos: 250, kcal: 116, p: 9, h: 20, g: 0.4, f: 8 },
-      { nombre: 'Zanahoria', gramos: 40, kcal: 41, p: 0.9, h: 10, g: 0.2, f: 2.8 },
-      { nombre: 'Pimiento rojo', gramos: 30, kcal: 31, p: 1, h: 6, g: 0.3, f: 2.1 },
-      { nombre: 'Aceite de oliva', gramos: 10, kcal: 884, p: 0, h: 0, g: 100, f: 0 },
-    ],
+    nombre: resultado.comida.nombre,
+    ingredientes: resultado.comida.alimentos.map((a) => ({
+      nombre: a.nombre,
+      gramos: a.cantidad,
+      unidad: a.unidad,
+      kcal: a.kcal,
+      p: a.proteinas,
+      h: a.hidratos,
+      g: a.grasas,
+      f: a.fibra,
+    })),
+  }
+}
+
+/** Respuesta fija del prototipo, con la misma estructura que el Worker. */
+async function analisisSimulado() {
+  await new Promise((r) => setTimeout(r, 2000))
+  return {
+    tipo: 'comida',
+    comida: {
+      nombre: 'Lentejas con verduras',
+      momento: null,
+      alimentos: [
+        { nombre: 'Lentejas cocidas', cantidad: 250, unidad: 'g', kcal: 116, proteinas: 9, hidratos: 20, grasas: 0.4, fibra: 8 },
+        { nombre: 'Zanahoria', cantidad: 40, unidad: 'g', kcal: 41, proteinas: 0.9, hidratos: 10, grasas: 0.2, fibra: 2.8 },
+        { nombre: 'Pimiento rojo', cantidad: 30, unidad: 'g', kcal: 31, proteinas: 1, hidratos: 6, grasas: 0.3, fibra: 2.1 },
+        { nombre: 'Aceite de oliva', cantidad: 10, unidad: 'ml', kcal: 884, proteinas: 0, hidratos: 0, grasas: 100, fibra: 0 },
+      ],
+    },
+    ejercicio: null,
   }
 }
 

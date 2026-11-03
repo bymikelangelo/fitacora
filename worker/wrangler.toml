@@ -1,0 +1,5 @@
+# Configuración del Worker de IA de Fitácora (solo hace falta si lo publicas con Wrangler).
+# La clave de Claude NO va aquí: se guarda como secreto (ver worker/README.md).
+name = "fitacora-ia"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
