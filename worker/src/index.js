@@ -142,13 +142,31 @@ const ESQUEMA = {
   },
 }
 
-const HERRAMIENTA = {
-  name: 'registrar',
-  description: 'Devuelve el análisis de la foto o del texto con la estructura de Fitácora.',
-  input_schema: ESQUEMA,
-}
 
 /* ───────── Validación de la respuesta (límites que el esquema no garantiza) ───────── */
+
+/** Claude puede cambiar mayúsculas en las opciones: se pasan a minúsculas antes de validar. */
+function normalizar(r) {
+  if (!r || typeof r !== 'object') return r
+  const min = (v) => (typeof v === 'string' ? v.toLowerCase() : v)
+  const n = { ...r, tipo: min(r.tipo) }
+  if (n.comida) {
+    n.comida = {
+      ...n.comida,
+      momento: min(n.comida.momento),
+      alimentos: (n.comida.alimentos || []).map((a) => ({ ...a, unidad: min(a.unidad) })),
+    }
+  }
+  if (n.ejercicio) {
+    n.ejercicio = {
+      ...n.ejercicio,
+      categoria: min(n.ejercicio.categoria),
+      grupo: min(n.ejercicio.grupo),
+      intensidad: min(n.ejercicio.intensidad),
+    }
+  }
+  return n
+}
 
 const enRango = (v, min, max) => typeof v === 'number' && Number.isFinite(v) && v >= min && v <= max
 const entero = (v, min, max) => Number.isInteger(v) && v >= min && v <= max
@@ -256,8 +274,8 @@ export default {
         model: env.MODELO || MODELO_POR_DEFECTO,
         max_tokens: 2048,
         system: PROMPT,
-        tools: [HERRAMIENTA],
-        tool_choice: { type: 'tool', name: HERRAMIENTA.name },
+        // Salida estructurada: Claude responde con un JSON que cumple ESQUEMA.
+        output_config: { format: { type: 'json_schema', schema: ESQUEMA } },
         messages: [{ role: 'user', content: contenido }],
       }),
     })
@@ -269,9 +287,14 @@ export default {
 
     // 3 · Respuesta de Claude, validada antes de devolverla a la app
     const datos = await respuesta.json()
-    const analisis = datos.content?.find((b) => b.type === 'tool_use')?.input
-    if (!respuestaValida(analisis)) {
-      console.log('Respuesta no válida de Claude', JSON.stringify(analisis))
+    let analisis = null
+    try {
+      analisis = normalizar(JSON.parse(datos.content?.find((b) => b.type === 'text')?.text ?? 'null'))
+    } catch {
+      analisis = null
+    }
+    if (datos.stop_reason !== 'end_turn' || !respuestaValida(analisis)) {
+      console.log('Respuesta no válida de Claude', datos.stop_reason, JSON.stringify(analisis))
       return responder({ error: 'respuesta_no_valida' }, 502)
     }
 
