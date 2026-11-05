@@ -32,7 +32,7 @@ const MENSAJES = {
  * @returns {Promise<{ tipo: 'comida'|'ejercicio'|'desconocido', comida: object|null, ejercicio: object|null }>}
  */
 export async function analizar({ foto = null, texto = null }) {
-  if (!IA_URL) return analisisSimulado()
+  if (!IA_URL) return analisisSimulado(texto)
 
   let respuesta
   try {
@@ -73,9 +73,45 @@ export async function analizarFoto(foto) {
   }
 }
 
-/** Respuesta fija del prototipo, con la misma estructura que el Worker. */
-async function analisisSimulado() {
-  await new Promise((r) => setTimeout(r, 2000))
+/**
+ * Flujo de «Describir con texto» (pantallas 14–16). Devuelve la respuesta del
+ * Worker tal cual: { tipo, comida, ejercicio }.
+ * @param {string} texto  descripción de la persona (máximo 500 caracteres)
+ */
+export async function analizarTexto(texto) {
+  try {
+    return await analizar({ foto: null, texto: texto.trim().slice(0, 500) })
+  } catch (e) {
+    if (e instanceof ErrorIA && e.message === MENSAJES.general) throw new ErrorIA('No se ha podido analizar la descripción.')
+    throw e
+  }
+}
+
+/** Respuestas fijas del prototipo, con la misma estructura que el Worker. */
+async function analisisSimulado(texto) {
+  await new Promise((r) => setTimeout(r, texto ? 1600 : 2000))
+  if (texto && /corr|bici|camin|nad|yoga|sentadill|serie|entren/i.test(texto)) {
+    return {
+      tipo: 'ejercicio',
+      comida: null,
+      ejercicio: { nombre: 'Carrera', categoria: 'cardio', grupo: 'piernas', intensidad: 'suave', duracion_min: 30, series: null, repeticiones: null, carga_kg: null },
+    }
+  }
+  if (texto) {
+    return {
+      tipo: 'comida',
+      ejercicio: null,
+      comida: {
+        nombre: 'Bocadillo de tortilla y café con leche',
+        momento: null,
+        alimentos: [
+          { nombre: 'Pan de barra', cantidad: 80, unidad: 'g', kcal: 265, proteinas: 9, hidratos: 49, grasas: 3.2, fibra: 2.7 },
+          { nombre: 'Tortilla de patata', cantidad: 100, unidad: 'g', kcal: 196, proteinas: 6.5, hidratos: 16, grasas: 12, fibra: 1.5 },
+          { nombre: 'Café con leche', cantidad: 200, unidad: 'ml', kcal: 36, proteinas: 2.4, hidratos: 3.4, grasas: 1.3, fibra: 0 },
+        ],
+      },
+    }
+  }
   return {
     tipo: 'comida',
     comida: {

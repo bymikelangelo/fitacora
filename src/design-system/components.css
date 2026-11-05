@@ -1,6 +1,6 @@
 /*
  * Estilos de los componentes Fitácora.
- * Copia de components/bundle.css del sistema de diseño (la del lienzo, 3 nov 2026).
+ * Copia de components/bundle.css del sistema de diseño (5 nov 2026).
  * Las fuentes se cargan en index.html.
  */
 
@@ -17,6 +17,8 @@ body { margin: 0; font-family: var(--font-sans); font-size: 16px; line-height: 2
 .ft-btn-sm { min-height: 36px; padding: 0 var(--space-4); font-size: 14px; }
 .ft-btn-sm .ft-icon { width: 18px; height: 18px; }
 .ft-btn:focus-visible, .ft-day:focus-visible, .ft-icon-btn:focus-visible, .ft-option:focus-visible, .ft-link:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand-strong); }
+/* Botón desactivado */
+.ft-btn[disabled] { opacity: .45; cursor: not-allowed; transform: none; }
 /* Botón de aviso: solo para borrar un registro */
 .ft-btn-warning { background: var(--danger); color: var(--on-danger); }
 .ft-btn-warning:focus-visible { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--danger); }
@@ -71,6 +73,38 @@ body { margin: 0; font-family: var(--font-sans); font-size: 16px; line-height: 2
 .ft-edit:hover { background: var(--surface); }
 .ft-edit:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--surface-raised), 0 0 0 4px var(--brand-strong); }
 .ft-empty { padding: var(--space-4) 0; color: var(--ink-muted); font-size: 14px; line-height: 20px; }
+
+/* Describir con texto */
+.ft-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.ft-num { font-variant-numeric: tabular-nums; }
+.ft-describe { background: var(--surface-raised); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); }
+.ft-describe-head { display: flex; gap: var(--space-3); align-items: flex-start; }
+.ft-bubble-ai { background: var(--ai); }
+.ft-describe-title { margin: 0; font-family: var(--font-display); font-size: 24px; line-height: 30px; font-weight: 400; }
+.ft-describe-hint { margin: 0; font-size: 14px; line-height: 20px; color: var(--ink-muted); }
+.ft-textarea { font: inherit; width: 100%; box-sizing: border-box; min-height: 88px; padding: var(--space-3); border: 2px solid var(--brand-strong); border-radius: var(--radius-sm); background: var(--surface); color: var(--ink); resize: vertical; }
+.ft-textarea::placeholder { color: var(--ink-muted); }
+.ft-textarea:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--surface-raised), 0 0 0 4px var(--brand-strong); }
+.ft-examples { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
+.ft-examples-label { width: 100%; font-size: 14px; line-height: 20px; color: var(--ink-muted); }
+.ft-example { font: inherit; font-size: 14px; line-height: 20px; padding: 6px var(--space-3); border-radius: var(--radius-full); border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; text-align: left; }
+.ft-example:hover { border-color: var(--brand-strong); }
+.ft-example:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--surface-raised), 0 0 0 4px var(--brand-strong); }
+.ft-describe-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.ft-describe-live { display: flex; flex-direction: column; gap: var(--space-3); }
+.ft-describe-live:empty { display: none; }
+.ft-ai-result { background: var(--ai); color: var(--on-fill); border-radius: var(--radius-md); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
+.ft-ai-result-top { display: flex; justify-content: space-between; align-items: center; gap: var(--space-2); }
+.ft-ai-result-kind { display: inline-flex; align-items: center; gap: var(--space-2); font-size: 14px; line-height: 20px; }
+.ft-ai-tag-on { background: transparent; border: 1px solid var(--on-fill); }
+.ft-ai-result-name { margin: 0; font-family: var(--font-display); font-size: 24px; line-height: 30px; font-weight: 400; }
+.ft-ai-result-detail { margin: 0; font-size: 14px; line-height: 20px; }
+.ft-ai-items { list-style: none; margin: 0; padding: 0; }
+.ft-ai-items li { display: flex; justify-content: space-between; gap: var(--space-3); padding: 6px 0; border-bottom: 1px solid rgba(22,26,23,.15); }
+.ft-ai-figures { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: var(--space-2) var(--space-3); margin: var(--space-2) 0 0; }
+.ft-ai-figures dt { font-size: 12px; line-height: 16px; }
+.ft-ai-figures dd { margin: 0; font-size: 16px; line-height: 24px; }
+.ft-ai-result-foot { margin: var(--space-2) 0 0; font-size: 12px; line-height: 16px; }
 
 @media (prefers-reduced-motion: reduce) { .ft-btn { transition: none; } }
 

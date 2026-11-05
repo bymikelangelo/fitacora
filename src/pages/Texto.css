@@ -1,0 +1,49 @@
+/* 14–16 · Añadir con texto (IA) — artboards TextoDescribir, TextoComida y TextoEjercicio */
+.texto-libre {
+  width: 100%;
+  min-height: 148px;
+  padding: 12px;
+  font: inherit;
+  line-height: 24px;
+  resize: none;
+  color: var(--ink);
+  background: var(--surface-raised);
+  border: 1.5px solid var(--brand-strong);
+  border-radius: var(--radius-md);
+}
+.texto-libre::placeholder { color: var(--ink-muted); }
+.texto-libre:focus { outline: none; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand-strong); }
+
+.ejemplo {
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 9999px;
+  border: 1.5px solid var(--line);
+  background: var(--surface-raised);
+  color: var(--ink);
+  cursor: pointer;
+}
+.ejemplo:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand-strong); }
+
+.caja-ia {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background: var(--ai);
+  color: var(--on-fill);
+  border-radius: var(--radius-md);
+}
+
+.cita {
+  margin: 0;
+  padding: 12px 16px;
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+.cita p { margin: 0; }
+
+.opciones-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }

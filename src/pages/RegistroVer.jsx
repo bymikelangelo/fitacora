@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router'
 import { Button, Icon } from '../design-system'
 import ConfirmarBorrar from '../components/ConfirmarBorrar.jsx'
-import { EJERCICIOS, MOMENTOS, subtituloEjercicio } from '../data/catalogo.js'
+import { CATEGORIAS, EJERCICIOS, MOMENTOS, subtituloEjercicio } from '../data/catalogo.js'
 import { borrarRegistro, buscarRegistro, useDatos } from '../data/store.js'
 import { deClave, fechaLarga } from '../lib/fechas.js'
 import { casillasNutrientes } from '../lib/nutricion.js'
@@ -69,6 +69,7 @@ export default function RegistroVer() {
 
 /** Adónde lleva «Editar»: la misma pantalla con la que se creó el registro. */
 function rutaEditar(r) {
+  if (r.origen === 'texto') return `/texto/revisar?editar=${r.id}`
   if (r.tipo === 'ejercicio') return `/ejercicio/${r.ejercicioId}?editar=${r.id}`
   return r.ia ? `/comida/foto/revisar?editar=${r.id}` : `/comida/revisar?editar=${r.id}`
 }
@@ -140,9 +141,9 @@ function DetalleEjercicio({ ejercicio }) {
   return (
     <>
       <div className="tarjeta" style={{ display: 'flex', alignItems: 'center', gap: 16, padding: 16 }}>
-        <Icon name={ficha?.icono ?? 'ejercicio'} size={56} label={`Grupo muscular: ${ejercicio.grupo.toLowerCase()}`} />
+        <Icon name={ficha?.icono ?? ejercicio.icono ?? 'ejercicio'} size={56} label={`Grupo muscular: ${ejercicio.grupo.toLowerCase()}`} />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <p style={{ margin: 0 }}>{ficha ? subtituloEjercicio(ficha) : ejercicio.grupo}</p>
+          <p style={{ margin: 0 }}>{ficha ? subtituloEjercicio(ficha) : [CATEGORIAS[ejercicio.categoria], ejercicio.grupo].filter(Boolean).join(' · ')}</p>
           <p className="texto-pequeno">Registrado a las {ejercicio.hora}</p>
         </div>
       </div>

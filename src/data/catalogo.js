@@ -80,3 +80,25 @@ export const subtituloEjercicio = (e) => (e.tipo === 'fuerza' ? `${e.grupo} · F
 
 /** Sin tildes y en minúsculas, para buscar. */
 export const normalizar = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+
+/* ───────── Opciones de la IA (mismas listas que el esquema del Worker) ───────── */
+
+/** Grupos musculares: id que devuelve la IA → nombre que se muestra. Cada uno tiene silueta m-<id>. */
+export const GRUPOS = {
+  pecho: 'Pecho',
+  espalda: 'Espalda',
+  hombros: 'Hombros',
+  brazos: 'Brazos',
+  abdomen: 'Abdomen',
+  gluteos: 'Glúteos',
+  piernas: 'Piernas',
+  cuerpo: 'Cuerpo entero',
+}
+
+export const CATEGORIAS = { fuerza: 'Fuerza', cardio: 'Cardio', flexibilidad: 'Flexibilidad' }
+
+export const INTENSIDADES = [
+  { id: 'suave', label: 'Suave' },
+  { id: 'moderada', label: 'Moderada' },
+  { id: 'intensa', label: 'Intensa' },
+]

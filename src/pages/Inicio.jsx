@@ -12,7 +12,7 @@ function saludoSegunHora(hora) {
   return 'Buenas noches'
 }
 
-const RUTAS_ANADIR = { photo: '/comida/foto', food: '/comida/buscar', exercise: '/ejercicio' }
+const RUTAS_ANADIR = { photo: '/comida/foto', describe: '/texto', food: '/comida/buscar', exercise: '/ejercicio' }
 
 /** 3 · Inicio. El mes que se ve va en la dirección (?mes=AAAA-MM) para volver a él desde un día. */
 export default function Inicio() {
