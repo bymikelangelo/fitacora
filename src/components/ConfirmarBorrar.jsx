@@ -35,7 +35,7 @@ export default function ConfirmarBorrar({ titulo, texto, accion, onConfirmar, on
           gap: 12,
           background: 'var(--surface-raised)',
           borderRadius: '14px 14px 0 0',
-          boxShadow: '0 -12px 28px -6px rgba(0, 0, 0, 0.18)',
+          boxShadow: 'var(--sheet-shadow-up)',
         }}
       >
         <h2 id="conf-titulo" className="subtitulo">{titulo}</h2>

@@ -12,7 +12,10 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="apple-mobile-web-app-title" content="Fitácora" />
-    <meta name="theme-color" content="#f7f4ee" />
+    <!-- Claro u oscuro según el ajuste del móvil (prefers-color-scheme) -->
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f7f4ee" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#151816" media="(prefers-color-scheme: dark)" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

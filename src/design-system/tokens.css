@@ -1,9 +1,15 @@
 /*
  * Tokens del sistema de diseño Fitácora (tokens.json, versión 9).
  * Mismos valores que usan las pantallas del lienzo «Fitácora · Pantallas y flujos».
- * Las pantallas están diseñadas en tema claro.
+ *
+ * Dos temas, claro y oscuro. El oscuro se activa solo cuando el móvil u
+ * ordenador está en modo oscuro (prefers-color-scheme): no hay interruptor
+ * dentro de la app. Valores del oscuro: pantallas «3 · Inicio (oscuro)» y
+ * «4 · Día seleccionado (oscuro)» del lienzo, iguales a los de tokens.json.
  */
 :root {
+  color-scheme: light;
+
   --surface: #f7f4ee;
   --surface-raised: #fffdf9;
   --ink: #1f2622;
@@ -21,6 +27,11 @@
   --danger: #b3261e;
   --on-danger: #ffffff;         /* Texto sobre el botón de borrar */
 
+  /* Enlaces y sombra de las hojas, que también cambian con el tema */
+  --link-hover: var(--action);
+  --sheet-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.18);
+  --sheet-shadow-up: 0 -12px 28px -6px rgba(0, 0, 0, 0.18); /* hoja que sube desde abajo */
+
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
   --font-sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
 
@@ -32,4 +43,31 @@
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-full: 9999px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --surface: #151816;
+    --surface-raised: #1e2220;
+    --ink: #eef0ea;
+    --ink-muted: #a4aea7;
+    --line: #333a36;
+    --on-fill: #161a17;
+    --brand: #9cc7b0;
+    --brand-strong: #578874;
+    --action: #507d6b;
+    --on-brand: #ffffff;
+    --accent: #e9b49a;
+    --accent-strong: #db8e6d;
+    --ai: #e6d17e;
+    --ai-strong: #f0cd57;
+    --danger: #ff8f86;
+    --on-danger: #161a17;
+
+    --link-hover: var(--brand);
+    --sheet-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.6);
+    --sheet-shadow-up: 0 -12px 28px -6px rgba(0, 0, 0, 0.6);
+  }
 }

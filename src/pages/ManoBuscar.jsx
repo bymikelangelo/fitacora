@@ -80,7 +80,7 @@ export default function ManoBuscar() {
                   aria-pressed={on}
                   aria-label={`${on ? 'Quitar' : 'Añadir'} ${a.nombre.toLowerCase()}`}
                   onClick={() => alternar(a.id)}
-                  style={{ width: 40, height: 40, flex: 'none', background: on ? 'var(--brand)' : undefined }}
+                  style={{ width: 40, height: 40, flex: 'none', background: on ? 'var(--brand)' : undefined, color: on ? 'var(--on-fill)' : undefined }}
                 >
                   <Icon name={on ? 'cerrar' : 'anadir'} />
                 </button>
